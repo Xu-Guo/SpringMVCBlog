@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -53,6 +54,14 @@ public class BlogController {
         blogRepository.saveAndFlush(blogEntity);
         //redirect to blogs.jsp
         return "redirect:/admin/blogs";
+    }
+
+    //show blog detail
+    @RequestMapping("/admin/blogs/show/{id}")
+    public String showBlog(@PathVariable("id") int id, ModelMap modelMap) {
+        BlogEntity blog = blogRepository.findOne(id);
+        modelMap.addAttribute("blog", blog);
+        return "admin/blogDetail";
     }
 
 }
