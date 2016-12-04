@@ -1,6 +1,7 @@
 package com.xuguo.model;
 
 import javax.persistence.*;
+import java.util.Collection;
 
 /**
  * Created by xuxu on 12/3/16.
@@ -13,6 +14,7 @@ public class UserEntity {
     private String password;
     private String firstName;
     private String lastName;
+    private Collection<BlogEntity> blogsById;
 
     @Id
     @Column(name = "id", nullable = false)
@@ -75,9 +77,7 @@ public class UserEntity {
         if (nickname != null ? !nickname.equals(that.nickname) : that.nickname != null) return false;
         if (password != null ? !password.equals(that.password) : that.password != null) return false;
         if (firstName != null ? !firstName.equals(that.firstName) : that.firstName != null) return false;
-        if (lastName != null ? !lastName.equals(that.lastName) : that.lastName != null) return false;
-
-        return true;
+        return lastName != null ? lastName.equals(that.lastName) : that.lastName == null;
     }
 
     @Override
@@ -88,5 +88,14 @@ public class UserEntity {
         result = 31 * result + (firstName != null ? firstName.hashCode() : 0);
         result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
         return result;
+    }
+
+    @OneToMany(mappedBy = "userByUserId")
+    public Collection<BlogEntity> getBlogsById() {
+        return blogsById;
+    }
+
+    public void setBlogsById(Collection<BlogEntity> blogsById) {
+        this.blogsById = blogsById;
     }
 }

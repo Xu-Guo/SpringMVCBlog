@@ -1,7 +1,9 @@
 package com.xuguo.model;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
-import java.sql.Date;
+import java.util.Date;
 
 /**
  * Created by xuxu on 12/3/16.
@@ -12,7 +14,9 @@ public class BlogEntity {
     private int id;
     private String title;
     private String content;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date pubDate;
+    private UserEntity userByUserId;
 
     @Id
     @Column(name = "id", nullable = false)
@@ -64,9 +68,7 @@ public class BlogEntity {
         if (id != that.id) return false;
         if (title != null ? !title.equals(that.title) : that.title != null) return false;
         if (content != null ? !content.equals(that.content) : that.content != null) return false;
-        if (pubDate != null ? !pubDate.equals(that.pubDate) : that.pubDate != null) return false;
-
-        return true;
+        return pubDate != null ? pubDate.equals(that.pubDate) : that.pubDate == null;
     }
 
     @Override
@@ -76,5 +78,15 @@ public class BlogEntity {
         result = 31 * result + (content != null ? content.hashCode() : 0);
         result = 31 * result + (pubDate != null ? pubDate.hashCode() : 0);
         return result;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
+    public UserEntity getUserByUserId() {
+        return userByUserId;
+    }
+
+    public void setUserByUserId(UserEntity userByUserId) {
+        this.userByUserId = userByUserId;
     }
 }
