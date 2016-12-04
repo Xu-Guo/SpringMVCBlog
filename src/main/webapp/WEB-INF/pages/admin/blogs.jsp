@@ -6,8 +6,8 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <!DOCTYPE html>
 <html>
@@ -20,6 +20,8 @@
 
     <!-- new Bootstrap core CSS file -->
     <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="//cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="//cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
 
 </head>
 <body>
@@ -54,10 +56,10 @@
                     <td>${blog.title}</td>
                     <!--<%--通过blog的userByUserId对象，找到了博文的作者，并且输出了他的昵称以及姓名。--%>-->
                     <td>${blog.userByUserId.nickname}, ${blog.userByUserId.firstName} ${blog.userByUserId.lastName}</td>
-                        <%--<td><fmt:formatDate value="${blog.pubDate }" pattern="yyyy-MM-dd"/></td>--%>
+                    <td><fmt:formatDate value="${blog.pubDate }" pattern="yyyy-MM-dd"/></td>
                     <td>
-                        <a href="/admin/blogs/show/${blog.id}" type="button" class="btn btn-sm btn-success">Show
-                            Detail</a>
+                        <a href="/admin/blogs/show/${blog.id}" type="button"
+                           class="btn btn-sm btn-success">ShowDetail</a>
                         <a href="/admin/blogs/update/${blog.id}" type="button" class="btn btn-sm btn-warning">Edit</a>
                         <a href="/admin/blogs/delete/${blog.id}" type="button" class="btn btn-sm btn-danger">Delete</a>
                     </td>
