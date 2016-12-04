@@ -1,20 +1,17 @@
 package com.xuguo.model;
 
-import org.springframework.format.annotation.DateTimeFormat;
-
 import javax.persistence.*;
-import java.util.Date;
+import java.sql.Date;
 
 /**
- * Created by xuxu on 12/3/16.
+ * Created by xuxu on 12/4/16.
  */
 @Entity
-@Table(name = "blog", schema = "SpringDEMO", catalog = "")
+@Table(name = "blog", schema = "blog", catalog = "")
 public class BlogEntity {
     private int id;
     private String title;
     private String content;
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date pubDate;
     private UserEntity userByUserId;
 
@@ -39,7 +36,7 @@ public class BlogEntity {
     }
 
     @Basic
-    @Column(name = "content", nullable = true, length = 255)
+    @Column(name = "content", nullable = true, length = 45)
     public String getContent() {
         return content;
     }

@@ -4,10 +4,10 @@ import javax.persistence.*;
 import java.util.Collection;
 
 /**
- * Created by xuxu on 12/3/16.
+ * Created by xuxu on 12/4/16.
  */
 @Entity
-@Table(name = "user", schema = "SpringDEMO", catalog = "")
+@Table(name = "user", schema = "blog", catalog = "")
 public class UserEntity {
     private int id;
     private String nickname;

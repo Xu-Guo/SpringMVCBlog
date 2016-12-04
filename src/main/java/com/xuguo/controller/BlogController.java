@@ -26,15 +26,16 @@ public class BlogController {
     UserRepository userRepository;
 
     //show all articles
-    @RequestMapping(value = "admin/blogs", method = RequestMethod.GET)
+    @RequestMapping(value = "/admin/blogs", method = RequestMethod.GET)
     public String showBlogs(ModelMap modelMap) {
+
         List<BlogEntity> blogList = blogRepository.findAll();
         modelMap.addAttribute("blogList", blogList);
         return "admin/blogs";
     }
 
     //add blog
-    @RequestMapping(value = "admin/blogs/add", method = RequestMethod.GET)
+    @RequestMapping(value = "/admin/blogs/add", method = RequestMethod.GET)
     public String addBlog(ModelMap modelMap) {
         List<UserEntity> userList = userRepository.findAll();
         //inject user list
@@ -44,7 +45,7 @@ public class BlogController {
 
     //add blog, use http post method, jump to blogs.jsp
 
-    @RequestMapping(value = "admin/blogs/addP", method = RequestMethod.POST)
+    @RequestMapping(value = "/admin/blogs/addP", method = RequestMethod.POST)
     public String addBlogPost(@ModelAttribute("blog") BlogEntity blogEntity) {
         //print blog title
         System.out.println(blogEntity.getTitle());
@@ -62,6 +63,33 @@ public class BlogController {
         BlogEntity blog = blogRepository.findOne(id);
         modelMap.addAttribute("blog", blog);
         return "admin/blogDetail";
+    }
+
+    //Edit blog
+    @RequestMapping("/admin/blogs/update/{id}")
+    public String updateBlog(@PathVariable("id") int id, ModelMap modelMap) {
+        BlogEntity blog = blogRepository.findOne(id);
+        List<UserEntity> userList = userRepository.findAll();
+        modelMap.addAttribute("blog", blog);
+        modelMap.addAttribute("userList", userList);
+        return "admin/updateBlog";
+    }
+
+    //Edit blog, http post method, redirect to blogs.jsp
+    @RequestMapping(value = "/admin/blogs/updateP", method = RequestMethod.POST)
+    public String updateBlogP(@ModelAttribute("blogP") BlogEntity blogEntity) {
+        //update blog
+        blogRepository.updateBlog(blogEntity.getTitle(), blogEntity.getUserByUserId().getId(),
+                blogEntity.getContent(), blogEntity.getPubDate(), blogEntity.getId());
+        return "redirect:/admin/blogs";
+    }
+
+    // Delete a blog
+    @RequestMapping("/admin/blogs/delete/{id}")
+    public String deleteBlog(@PathVariable("id") int id) {
+        blogRepository.delete(id);
+        blogRepository.flush();
+        return "redirect:/admin/blogs";
     }
 
 }
