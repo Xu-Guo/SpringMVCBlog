@@ -1,7 +1,7 @@
 package com.xuguo.model;
 
 import javax.persistence.*;
-import java.sql.Date;
+import java.util.Date;
 
 /**
  * Created by xuxu on 12/4/16.
@@ -14,6 +14,7 @@ public class BlogEntity {
     private String content;
     private Date pubDate;
     private UserEntity userByUserId;
+
 
     @Id
     @Column(name = "id", nullable = false)
@@ -36,7 +37,7 @@ public class BlogEntity {
     }
 
     @Basic
-    @Column(name = "content", nullable = true, length = 45)
+    @Column(name = "content", nullable = true, length = 255)
     public String getContent() {
         return content;
     }
@@ -46,7 +47,7 @@ public class BlogEntity {
     }
 
     @Basic
-    @Column(name = "pub_date", nullable = false)
+    @Column(name = "pub_date", nullable = false, length = 45)
     public Date getPubDate() {
         return pubDate;
     }
