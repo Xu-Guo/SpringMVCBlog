@@ -10,11 +10,15 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 /**
  * Created by xuxu on 12/2/16.
  */
+
+
+
 @Controller
 public class MainController {
 
@@ -22,11 +26,66 @@ public class MainController {
     @Autowired
     UserRepository userRepository;
 
+
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String index(){
         System.out.println("*********controller hello!***********");
-        return "index";
+        return "clientLogin";
     }
+
+    @RequestMapping(value = "/register", method = RequestMethod.GET)
+    public String register(){
+        return "admin/registerUser";
+    }
+
+    @RequestMapping(value = "/registerP", method = RequestMethod.POST)
+    public String registerP(@ModelAttribute("user")UserEntity userEntity){
+
+            //post request passes a UserEntity object which contains the information of this user
+            //with @ModelAttribute() annotation, we can obtain the user information and create a object
+
+            //add one user, after save() method, data kept in buffer, not added to database
+            //userRepository.save(userEntity);
+
+            //add one user and insert into database, saveAndFlush() method flushes changes instantly
+            userRepository.saveAndFlush(userEntity);
+
+            // redirect:url
+            return "redirect:/admin/users";
+    }
+
+
+
+    @RequestMapping(value = "/clientLogin", method = RequestMethod.GET)
+    public String clientLogin(){
+        return "clientLogin";
+    }
+
+    @RequestMapping(value = "/clientLoginP", method = RequestMethod.POST)
+    public String clientLoginP(HttpSession httpSession, String firstName, String lastName, String password){
+        System.out.println("@@@@@@@@@@@@@@clientLoginP!!!@@@@@@@@@@@@@@@@@");
+        if(firstName.equals("admin") && lastName.equals("admin") && password.equals("admin")) {
+            httpSession.setAttribute("loginStatus", "admin");
+            System.out.println("@@@@@@@@@@@@@@setAttribute!!!@@@@@@@@@@@@@@@@@");
+            System.out.println(httpSession.getAttribute("loginStatus"));
+        }
+        return "welcome";
+    }
+
+    @RequestMapping(value = "/welcome", method = RequestMethod.GET)
+    public String welcome(){
+        System.out.println("*********welcome!!!***********");
+
+        return "welcome";
+    }
+
+    @RequestMapping("/clientLoginOut")
+    public String clientLoginOut(HttpSession httpSession){
+        httpSession.invalidate();
+        return "forward:clientsList.action";
+    }
+
+
 
     @RequestMapping(value = "/admin/users",method = RequestMethod.GET)
     public String getUsers(ModelMap modelMap){
@@ -45,8 +104,8 @@ public class MainController {
 
     @RequestMapping(value = "/admin/users/add",method = RequestMethod.GET)
     public String addUser(){
-        //jump to admin/addUser.jsp
-        return "admin/addUser";
+        //jump to admin/registerUser.jsp
+        return "admin/registerUser";
     }
 
     //post request, handle add user request and return back to /admin/users.jsp (user management page)

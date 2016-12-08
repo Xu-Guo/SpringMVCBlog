@@ -25,7 +25,7 @@
 </head>
 <body>
 <div class="container">
-    <h1>SpringMVC Add New User</h1>
+    <h1>SpringMVC Register User</h1>
     <hr/>
 
     <!--

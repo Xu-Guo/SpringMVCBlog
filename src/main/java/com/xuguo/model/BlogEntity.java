@@ -1,5 +1,7 @@
 package com.xuguo.model;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -12,6 +14,8 @@ public class BlogEntity {
     private int id;
     private String title;
     private String content;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date pubDate;
     private UserEntity userByUserId;
 
